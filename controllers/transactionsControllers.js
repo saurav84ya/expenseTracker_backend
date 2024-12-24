@@ -167,6 +167,18 @@ const addExpnse = async (req, res) => {
 
     // Validate amount
 
+    const user = await User.findOne({_id:userId})
+
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+
+    const newBalance = Number(user.balance) - Number(amount)
+
     const expnse = new expnseModelSchima({
       title,
       amount,
@@ -176,7 +188,12 @@ const addExpnse = async (req, res) => {
       userId,
     });
 
+
+
     await expnse.save();
+    user.balance = newBalance
+
+    await user.save()
 
     res.json({
       success: true,
@@ -194,6 +211,8 @@ const addExpnse = async (req, res) => {
 const fetchExpnse = async (req, res) => {
   const { userId } = req.params;
 
+  console.log(userId)
+
   try {
     if (!userId) {
       return res.json({
@@ -206,6 +225,8 @@ const fetchExpnse = async (req, res) => {
       .find({ userId })
       .sort({ createdAt: -1 });
 
+      const balance = await User.findOne({_id:userId})
+
     if (!expnses) {
       return res.json({
         success: true,
@@ -217,6 +238,7 @@ const fetchExpnse = async (req, res) => {
       success: true,
       message: "data found",
       data: expnses,
+      balance : balance.balance,
     });
   } catch (error) {
     return res.json({
@@ -238,7 +260,17 @@ const deleteExpnse = async (req, res) => {
       });
     }
 
-    await expnseModelSchima.deleteOne({ _id: expanseId, userId });
+    const user = await User.findOne({_id:userId})
+    const amount = await expnseModelSchima.findOne({_id:expanseId})
+
+    // console.log(user.balance,amount.amount)
+
+    const newBalance = Number(user.balance) + Number(amount.amount)
+
+    user.balance = newBalance
+    await user.save()
+
+    // await expnseModelSchima.deleteOne({ _id: expanseId, userId });
 
     res.json({
       success: true,
@@ -253,6 +285,84 @@ const deleteExpnse = async (req, res) => {
   }
 };
 
+
+
+// const authMiddleware = async (req, res, next) => {
+//   const token = req.cookies.token;
+
+//   // console.log("token" , token)
+  
+//   if(!token) return res.json({
+//     success: false,
+//     message : "Unauthrosid user!"
+//   })
+
+//   try {
+//     const decoded = jwt.verify(token,process.env.JWT_SECRET)
+
+//       // console.log(decoded)
+//       const email = decoded.email
+//   //   console.log(email)
+
+//     const user = await User.findOne({email})
+
+//     const existUser =   {
+//       id : user._id,
+//       name : user.name,
+//       email : user.email,
+//       balance : user.balance
+//   }
+
+//   //   console.log(user)
+
+//     req.user = existUser
+//     next()
+//   } catch (error) {
+//       console.log(error)
+//    res.json({
+//     success : false ,
+//    }) 
+//   }
+// }
+
+
+
+const dashBoardInfo = async (req,res) => {
+  const {userId} = req.params
+
+  try {
+
+    if(!userId){
+      res.json({
+        success : false,
+        message : "Plz Provide UserId"
+      })
+    }
+
+    const incomes = await incomeModelSchima
+      .find({userId : userId})
+      .sort({ createdAt: -1 });
+
+
+    const expnses = await expnseModelSchima
+      .find({ userId })
+      .sort({ createdAt: -1 });
+
+      res.json({
+        success : true,
+        message : "data fetched sucesfully",
+        incomes : incomes ,
+        expnses : expnses,
+      })
+
+  } catch (error) {
+    res.json({
+        success : false,
+        message : "server not responding"
+      })
+  }
+}
+
 module.exports = {
   addIncome,
   fetchIncome,
@@ -260,4 +370,5 @@ module.exports = {
   addExpnse,
   fetchExpnse,
   deleteExpnse,
+  dashBoardInfo
 };
