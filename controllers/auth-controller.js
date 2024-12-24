@@ -48,6 +48,7 @@ const reg = async (req,res) => {
                     id : newUser._id,
                     name : newUser.name,
                     email :newUser.email,
+                    balance : newUser.balance
                 }
             })
 
@@ -110,6 +111,7 @@ const login = async (req,res) => {
                     id : isUserExist._id,
                     name : isUserExist.name,
                     email : isUserExist.email,
+                    balance : isUserExist.balance
                 }
             })
 
@@ -138,7 +140,23 @@ const authMiddleware = async (req, res, next) => {
   
     try {
       const decoded = jwt.verify(token,process.env.JWT_SECRET)
-      req.user = decoded
+
+        // console.log(decoded)
+        const email = decoded.email
+    //   console.log(email)
+
+      const user = await User.findOne({email})
+
+      const existUser =   {
+        id : user._id,
+        name : user.name,
+        email : user.email,
+        balance : user.balance
+    }
+
+    //   console.log(user)
+
+      req.user = existUser
       next()
     } catch (error) {
         console.log(error)

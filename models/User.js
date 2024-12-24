@@ -1,23 +1,25 @@
-const {Schema , model} = require("mongoose")
+const { Schema, model } = require("mongoose");
 
+const userSchema = new Schema({
+  name: {
+    type: String,
+    required: true, // Changed "require" to "required"
+  },
+  email: {
+    type: String,
+    required: true, // Changed "require" to "required"
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true, // Changed "require" to "required"
+  },
+  balance: {
+    type: Number, // Changed balance type from String to Number for better handling of financial data
+    default: 0,
+  },
+});
 
-const userSchima = new Schema({
-    name:{
-        type : String,
-        require : true
-    },
-    email:{
-        type : String,
-        require : true,
-        unique: true
-    },
-    password : {
-        type : String ,
-        require :true
-    }
-
-})
-
-const User = model("EtUser" , userSchima)
+const User = model("EtUser", userSchema);
 
 module.exports = User;
