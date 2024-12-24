@@ -3,7 +3,7 @@ const {   addIncome,
     deleteIncome,
     addExpnse,
     fetchExpnse,
-    deleteExpnse,dashBoardInfo} = require("../controllers/transactionsControllers")
+    deleteExpnse,dashBoardInfo,authMiddleware} = require("../controllers/transactionsControllers")
 
 const router = require("express").Router()
 

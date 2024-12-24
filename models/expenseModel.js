@@ -27,6 +27,10 @@ const ExpnseSchima = new Schema(
         type: String,
         required: true,
         maxLength: 50
+      },
+      x : {
+        type : String,
+        required: true,
       }
     },
     { timestamps: true }

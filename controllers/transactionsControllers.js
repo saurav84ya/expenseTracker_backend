@@ -139,7 +139,7 @@ const deleteIncome = async (req, res) => {
 
     await user.save()
 
-    // await incomeModelSchima.deleteOne({ _id: incomeId, userId });
+    await incomeModelSchima.deleteOne({ _id: incomeId, userId });
 
     res.json({
       success: true,
@@ -270,7 +270,7 @@ const deleteExpnse = async (req, res) => {
     user.balance = newBalance
     await user.save()
 
-    // await expnseModelSchima.deleteOne({ _id: expanseId, userId });
+    await expnseModelSchima.deleteOne({ _id: expanseId, userId });
 
     res.json({
       success: true,
