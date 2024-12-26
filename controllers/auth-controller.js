@@ -68,7 +68,7 @@ const reg = async (req,res) => {
 const login = async (req,res) => {
 
     const { email ,password} = req.body
-    // console.log(email,password)
+    console.log(email,password)
 
     try {
 

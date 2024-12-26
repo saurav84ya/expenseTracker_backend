@@ -45,6 +45,7 @@ const addIncome = async (req, res) => {
       description,
       date,
       userId,
+      x:"i"
     });
 
     await income.save();
@@ -186,6 +187,7 @@ const addExpnse = async (req, res) => {
       description,
       date,
       userId,
+      x : "e"
     });
 
 
