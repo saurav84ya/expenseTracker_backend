@@ -31,9 +31,9 @@ function server() {
   try {
     db();
     app.listen(PORT);
-    console.log("Sevre is running at ", PORT);
+    //("Sevre is running at ", PORT);
   } catch (error) {
-    console.log("server starter failed")
+    //("server starter failed")
   }
 }
 

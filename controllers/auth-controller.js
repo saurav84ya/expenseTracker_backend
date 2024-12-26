@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken")
 
 const reg = async (req,res) => {
     const {name,email,password} = req.body;
-    // console.log(name,email,password)
+    // //(name,email,password)
 
     try {
 
@@ -56,7 +56,7 @@ const reg = async (req,res) => {
 
 
     } catch (error) {
-        console.log("error at reg controller",error)
+        //("error at reg controller",error)
         res.json({
             success:false,
             message : "Some error occurred, please try again later."
@@ -68,7 +68,7 @@ const reg = async (req,res) => {
 const login = async (req,res) => {
 
     const { email ,password} = req.body
-    console.log(email,password)
+    //(email,password)
 
     try {
 
@@ -118,7 +118,7 @@ const login = async (req,res) => {
 
 
     } catch (error) {
-        console.log("error at login controller")
+        //("error at login controller")
         res.json({
             success:false,
             message : "Some error occurred, please try again later."
@@ -131,7 +131,7 @@ const login = async (req,res) => {
 const authMiddleware = async (req, res, next) => {
     const token = req.cookies.token;
 
-    // console.log("token" , token)
+    // //("token" , token)
     
     if(!token) return res.json({
       success: false,
@@ -141,9 +141,9 @@ const authMiddleware = async (req, res, next) => {
     try {
       const decoded = jwt.verify(token,process.env.JWT_SECRET)
 
-        // console.log(decoded)
+        // //(decoded)
         const email = decoded.email
-    //   console.log(email)
+    //   //(email)
 
       const user = await User.findOne({email})
 
@@ -154,12 +154,12 @@ const authMiddleware = async (req, res, next) => {
         balance : user.balance
     }
 
-    //   console.log(user)
+    //   //(user)
 
       req.user = existUser
       next()
     } catch (error) {
-        console.log(error)
+        //(error)
      res.json({
       success : false ,
      }) 
@@ -169,7 +169,7 @@ const authMiddleware = async (req, res, next) => {
 
 const logOut = async (req,res) => {
 
-    // console.log("logout")
+    // //("logout")
     res.clearCookie("token" , {
         httpOnly : true,
         path : "/"

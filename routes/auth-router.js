@@ -12,7 +12,7 @@ router.post("/logout" , logOut)
 
 router.get("/checkauth",authMiddleware , (req,res) => {
     const user = req.user
-    // console.log("user" , user)
+    // //("user" , user)
     res.json({
         message : "You are authenticated",
         user,

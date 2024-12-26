@@ -4,8 +4,8 @@ const User = require("../models/User");
 
 const addIncome = async (req, res) => {
   const { title, amount, category, description, date, userId } = req.body;
-// console.log(title, amount, category, description, date, userId)
-// console.log("income addede")
+// //(title, amount, category, description, date, userId)
+// //("income addede")
   try {
     if (!title || !category || !description || !date || !userId) {
       return res.json({
@@ -62,7 +62,7 @@ const addIncome = async (req, res) => {
       message: "Income added successfully",
     });
   } catch (error) {
-    console.log(error);
+    //(error);
     res.json({
       success: false,
       message: "Something went wrong",
@@ -73,8 +73,8 @@ const addIncome = async (req, res) => {
 const fetchIncome = async (req, res) => {
   const { userId } = req.params;
 
-// console.log("incoe fetched")
-  // console.log("userId",userId)
+// //("incoe fetched")
+  // //("userId",userId)
 
   try {
     if (!userId) {
@@ -113,9 +113,9 @@ const fetchIncome = async (req, res) => {
 
 const deleteIncome = async (req, res) => {
   const { userId, incomeId } = req.params;
-  // console.log(userId,incomeId)
+  // //(userId,incomeId)
 
-  // console.log("income deleted")
+  // //("income deleted")
 
   try {
     // Validate input parameters
@@ -128,14 +128,14 @@ const deleteIncome = async (req, res) => {
 
     const user = await User.findOne({_id:userId})
 
-    // console.log(user.balance)
+    // //(user.balance)
 
     const incomeSlice =  await incomeModelSchima.findOne({_id:incomeId})
 
-    // console.log(incomeSlice.amount)
+    // //(incomeSlice.amount)
 
     const newBalance = Number(user.balance) - Number(incomeSlice.amount)
-      // console.log(newBalance)
+      // //(newBalance)
     user.balance = newBalance
 
     await user.save()
@@ -202,7 +202,7 @@ const addExpnse = async (req, res) => {
       message: "expnse added successfully",
     });
   } catch (error) {
-    console.log(error);
+    //(error);
     res.json({
       success: false,
       message: "Something went wrong",
@@ -213,7 +213,7 @@ const addExpnse = async (req, res) => {
 const fetchExpnse = async (req, res) => {
   const { userId } = req.params;
 
-  console.log(userId)
+  //(userId)
 
   try {
     if (!userId) {
@@ -265,7 +265,7 @@ const deleteExpnse = async (req, res) => {
     const user = await User.findOne({_id:userId})
     const amount = await expnseModelSchima.findOne({_id:expanseId})
 
-    // console.log(user.balance,amount.amount)
+    // //(user.balance,amount.amount)
 
     const newBalance = Number(user.balance) + Number(amount.amount)
 
@@ -292,7 +292,7 @@ const deleteExpnse = async (req, res) => {
 // const authMiddleware = async (req, res, next) => {
 //   const token = req.cookies.token;
 
-//   // console.log("token" , token)
+//   // //("token" , token)
   
 //   if(!token) return res.json({
 //     success: false,
@@ -302,9 +302,9 @@ const deleteExpnse = async (req, res) => {
 //   try {
 //     const decoded = jwt.verify(token,process.env.JWT_SECRET)
 
-//       // console.log(decoded)
+//       // //(decoded)
 //       const email = decoded.email
-//   //   console.log(email)
+//   //   //(email)
 
 //     const user = await User.findOne({email})
 
@@ -315,12 +315,12 @@ const deleteExpnse = async (req, res) => {
 //       balance : user.balance
 //   }
 
-//   //   console.log(user)
+//   //   //(user)
 
 //     req.user = existUser
 //     next()
 //   } catch (error) {
-//       console.log(error)
+//       //(error)
 //    res.json({
 //     success : false ,
 //    }) 
