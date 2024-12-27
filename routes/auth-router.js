@@ -1,4 +1,5 @@
-const { login, reg, authMiddleware, logOut } = require("../controllers/auth-controller")
+const { login, reg, authMiddleware, changePAss,logOut, optSenderController ,otpRecovery,optSenderControllerForRecovery} = require("../controllers/auth-controller")
+const { verifyOtp ,verifyOtpRecovery} = require("../middleWare.js/otpVerify")
 
 const router = require("express").Router()
 
@@ -7,8 +8,14 @@ const router = require("express").Router()
 // })
 
 router.post('/login',login)
-router.post('/logup',reg)
+router.post('/logup',verifyOtp,reg)
 router.post("/logout" , logOut)
+
+router.get("/logup/getOtp/:email" ,optSenderController )
+
+router.get("/logup/getOtpForRecovery/:email" ,optSenderControllerForRecovery )
+router.post("/recover/verifyOtp" , verifyOtpRecovery )
+router.post("/recover/changePAss" , changePAss )
 
 router.get("/checkauth",authMiddleware , (req,res) => {
     const user = req.user

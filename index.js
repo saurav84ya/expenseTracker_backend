@@ -1,39 +1,45 @@
 require("dotenv").config();
 const cors = require("cors");
 const express = require("express");
-const cookieParser = require("cookie-parser")
+const cookieParser = require("cookie-parser");
 const { db } = require("./database/db");
 const app = express();
 
+
 const PORT = process.env.PORT;
 
-//routers import 
-const authRouter = require("./routes/auth-router")
-const transactions  = require("./routes/transactions")
+// Routers import
+const authRouter = require("./routes/auth-router");
+const transactions = require("./routes/transactions");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(cors({
-  origin: 'http://localhost:5174', // Your frontend URL
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Your frontend URL
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
-  res.send("hello from mera lund");
+  res.send("Hello from mera lund");
 });
 
-app.use('/auth' , authRouter)
-app.use('/a',transactions)
+app.use("/auth", authRouter);
+app.use("/a", transactions);
 
-function server() {
+async function server() {
   try {
-    db();
-    app.listen(PORT);
-    //("Sevre is running at ", PORT);
+    await db(); // Ensure database connection is awaited
+    ("Connected to Redis");
+
+    app.listen(PORT, () => {
+      (`Server is running at ${PORT}`);
+    });
   } catch (error) {
-    //("server starter failed")
+    console.error("Server startup failed:");
   }
 }
 
