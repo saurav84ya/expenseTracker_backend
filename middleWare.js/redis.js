@@ -1,6 +1,3 @@
-const redis = require("redis");
-const redisClient = redis.createClient();
-
 
 const {OtpModel} = require("../models/otpModel") 
 
@@ -16,7 +13,6 @@ const deleteOtp = async (email) => {
 const getOtp = async (email) => {
   try {
     const otp = await  OtpModel.findOne({email})
-    ("otp" ,otp)
     return otp
   } catch (err) {
     console.error("Error retrieving OTP:", err);
@@ -32,7 +28,6 @@ const setOtp = async (email, currentOtp) => {
     });
 
     await newOtp.save();
-    ("OTP stored successfully");
   } catch (err) {
     console.error("Error storing OTP:", err);
   }

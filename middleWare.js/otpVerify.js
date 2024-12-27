@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
-const User = require("../models/User"); // Assuming you have a User model
+const User = require("../models/User");
 const { setOtp, getOtp, deleteOtp } = require("./redis");
 
 // Function to send OTP to email
@@ -39,7 +39,7 @@ const sendOtpToEmail = async (email) => {
 
 const verifyOtpRecovery = async (req, res) => {
   const { email, otp } = req.body;
-  ("recovery:", email, otp);
+
 
   // Validate input data
   if (!otp || !email) {
@@ -74,13 +74,10 @@ const verifyOtpRecovery = async (req, res) => {
 
   // Verify OTP
 
-  (storedOtp?.currentOtp)
   
   if (storedOtp?.currentOtp === otp) {
     await deleteOtp(email);
-    ("sahi hai ")
   } else {
-    ("galat hai ")
     res.clearCookie("email"); // Clear the cookie if any
     return res.json({
       success: false,
@@ -109,7 +106,6 @@ const verifyOtpRecovery = async (req, res) => {
 const verifyOtp = async (req, res, next) => {
   const { name, email, password, otp } = req.body;
 
-  ("Middleware received:", name, email, password, otp);
 
   // Validate input data
   if (!otp || !name || !password || !email) {
@@ -131,7 +127,6 @@ const verifyOtp = async (req, res, next) => {
   // Retrieve OTP from Redis
   const storedOtp = await getOtp(email);
 
-  (storedOtp?.currentOtp);
 
   if (!storedOtp?.currentOtp) {
     return res.json({

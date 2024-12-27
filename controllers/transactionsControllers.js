@@ -4,8 +4,6 @@ const User = require("../models/User");
 
 const addIncome = async (req, res) => {
   const { title, amount, category, description, date, userId } = req.body;
-// //(title, amount, category, description, date, userId)
-// //("income addede")
   try {
     if (!title || !category || !description || !date || !userId) {
       return res.json({
@@ -14,7 +12,6 @@ const addIncome = async (req, res) => {
       });
     }
 
-    // Validate amount
     if (isNaN(amount) || amount <= 0) {
       return res.json({
         success: false,
@@ -62,7 +59,6 @@ const addIncome = async (req, res) => {
       message: "Income added successfully",
     });
   } catch (error) {
-    //(error);
     res.json({
       success: false,
       message: "Something went wrong",
@@ -72,9 +68,6 @@ const addIncome = async (req, res) => {
 
 const fetchIncome = async (req, res) => {
   const { userId } = req.params;
-
-// //("incoe fetched")
-  // //("userId",userId)
 
   try {
     if (!userId) {
@@ -113,12 +106,9 @@ const fetchIncome = async (req, res) => {
 
 const deleteIncome = async (req, res) => {
   const { userId, incomeId } = req.params;
-  // //(userId,incomeId)
 
-  // //("income deleted")
 
   try {
-    // Validate input parameters
     if (!userId || !incomeId) {
       return res.json({
         success: false,
@@ -128,14 +118,11 @@ const deleteIncome = async (req, res) => {
 
     const user = await User.findOne({_id:userId})
 
-    // //(user.balance)
 
     const incomeSlice =  await incomeModelSchima.findOne({_id:incomeId})
 
-    // //(incomeSlice.amount)
 
     const newBalance = Number(user.balance) - Number(incomeSlice.amount)
-      // //(newBalance)
     user.balance = newBalance
 
     await user.save()
@@ -166,7 +153,6 @@ const addExpnse = async (req, res) => {
       });
     }
 
-    // Validate amount
 
     const user = await User.findOne({_id:userId})
 
@@ -202,7 +188,6 @@ const addExpnse = async (req, res) => {
       message: "expnse added successfully",
     });
   } catch (error) {
-    //(error);
     res.json({
       success: false,
       message: "Something went wrong",
@@ -213,7 +198,6 @@ const addExpnse = async (req, res) => {
 const fetchExpnse = async (req, res) => {
   const { userId } = req.params;
 
-  //(userId)
 
   try {
     if (!userId) {
@@ -254,7 +238,6 @@ const deleteExpnse = async (req, res) => {
   const { userId, expanseId } = req.params;
 
   try {
-    // Validate input parameters
     if (!userId || !expanseId) {
       return res.json({
         success: false,
@@ -265,7 +248,6 @@ const deleteExpnse = async (req, res) => {
     const user = await User.findOne({_id:userId})
     const amount = await expnseModelSchima.findOne({_id:expanseId})
 
-    // //(user.balance,amount.amount)
 
     const newBalance = Number(user.balance) + Number(amount.amount)
 
@@ -286,46 +268,6 @@ const deleteExpnse = async (req, res) => {
     });
   }
 };
-
-
-
-// const authMiddleware = async (req, res, next) => {
-//   const token = req.cookies.token;
-
-//   // //("token" , token)
-  
-//   if(!token) return res.json({
-//     success: false,
-//     message : "Unauthrosid user!"
-//   })
-
-//   try {
-//     const decoded = jwt.verify(token,process.env.JWT_SECRET)
-
-//       // //(decoded)
-//       const email = decoded.email
-//   //   //(email)
-
-//     const user = await User.findOne({email})
-
-//     const existUser =   {
-//       id : user._id,
-//       name : user.name,
-//       email : user.email,
-//       balance : user.balance
-//   }
-
-//   //   //(user)
-
-//     req.user = existUser
-//     next()
-//   } catch (error) {
-//       //(error)
-//    res.json({
-//     success : false ,
-//    }) 
-//   }
-// }
 
 
 

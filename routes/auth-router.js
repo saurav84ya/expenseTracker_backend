@@ -3,9 +3,7 @@ const { verifyOtp ,verifyOtpRecovery} = require("../middleWare.js/otpVerify")
 
 const router = require("express").Router()
 
-// router.get('/',(req,res) => {
-//     res.send("skdaksbh")
-// })
+
 
 router.post('/login',login)
 router.post('/logup',verifyOtp,reg)
@@ -19,7 +17,6 @@ router.post("/recover/changePAss" , changePAss )
 
 router.get("/checkauth",authMiddleware , (req,res) => {
     const user = req.user
-    // //("user" , user)
     res.json({
         message : "You are authenticated",
         user,

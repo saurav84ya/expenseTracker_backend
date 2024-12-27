@@ -33,10 +33,10 @@ app.use("/a", transactions);
 async function server() {
   try {
     await db(); // Ensure database connection is awaited
-    ("Connected to Redis");
+    console.log("Connected to Redis");
 
     app.listen(PORT, () => {
-      (`Server is running at ${PORT}`);
+      console.log(`Server is running at ${PORT}`);
     });
   } catch (error) {
     console.error("Server startup failed:");

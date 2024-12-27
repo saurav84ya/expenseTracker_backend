@@ -11,9 +11,7 @@ const otpRecovery = async (req,res) => {
 
 const reg = async (req,res) => {
     const {name,email,password} = req.regUser;
-    // //(name,email,password)
 
-    ("name,email,password" , name,email,password)
 
     try {
         const hashPassword = await bcrypt.hash(password , 12);
@@ -53,7 +51,6 @@ const reg = async (req,res) => {
 
 
     } catch (error) {
-        //("error at reg controller",error)
         res.json({
             success:false,
             message : "Some error occurred, please try again later."
@@ -65,7 +62,6 @@ const reg = async (req,res) => {
 const login = async (req,res) => {
 
     const { email ,password} = req.body
-    //(email,password)
 
     try {
 
@@ -116,7 +112,6 @@ const login = async (req,res) => {
 
 
     } catch (error) {
-        //("error at login controller")
         res.json({
             success:false,
             message : "Some error occurred, please try again later."
@@ -129,7 +124,6 @@ const login = async (req,res) => {
 const authMiddleware = async (req, res, next) => {
     const token = req.cookies.token;
 
-    // //("token" , token)
     
     if(!token) return res.json({
       success: false,
@@ -139,9 +133,7 @@ const authMiddleware = async (req, res, next) => {
     try {
       const decoded = jwt.verify(token,process.env.JWT_SECRET)
 
-        // //(decoded)
         const email = decoded.email
-    //   //(email)
 
       const user = await User.findOne({email})
 
@@ -152,12 +144,10 @@ const authMiddleware = async (req, res, next) => {
         balance : user.balance
     }
 
-    //   //(user)
 
       req.user = existUser
       next()
     } catch (error) {
-        //(error)
      res.json({
       success : false ,
      }) 
@@ -167,7 +157,6 @@ const authMiddleware = async (req, res, next) => {
 
 const logOut = async (req,res) => {
 
-    // //("logout")
     res.clearCookie("token" , {
         httpOnly : true,
         path : "/"
@@ -180,30 +169,24 @@ const logOut = async (req,res) => {
 
 const optSenderController = async (req, res) => {
     const { email } = req.params;
-    // ("email", email);
     
     try {
         const isExist = await User.findOne({ email });
         
         if (isExist) {
-            // Send the response and exit the function
             return res.json({
                 success: false,
                 message: "Email already exists",
             });
         }
 
-        // If email doesn't exist, proceed with sending the OTP
-        // Assuming you have a function `sendOtpToEmail` that sends the OTP
         await sendOtpToEmail(email);
 
-        // Send the response after sending the OTP
         res.status(200).json({
             success: true,
             message: "OTP sent to your email successfully."
         });
     } catch (error) {
-        // If an error occurs, handle it by sending the response and exit
         res.json({
             success: false,
             message: "Failed to send OTP. Please try again later."
@@ -213,7 +196,6 @@ const optSenderController = async (req, res) => {
 
 const optSenderControllerForRecovery = async (req, res) => {
     const { email } = req.params;
-    ("email", email);
     
     try {
         const isExist = await User.findOne({ email });
@@ -250,7 +232,6 @@ const changePAss = async (req, res) => {
     const { password } = req.body;
     const email = req.cookies.email; // Ensure you have middleware to parse cookies
 
-    ("email,password:", email, password);
 
     try {
         // Validate input
@@ -292,7 +273,6 @@ const changePAss = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Error updating password:", error);
         res.json({
             success: false,
             message: "Internal server error.",
