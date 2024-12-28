@@ -229,12 +229,13 @@ const optSenderControllerForRecovery = async (req, res) => {
 
 
 const changePAss = async (req, res) => {
-    const { password } = req.body;
-    const email = req.cookies.email; // Ensure you have middleware to parse cookies
+    const { password , email } = req.body;
+
 
 
     try {
         // Validate input
+        console.log(password , email )
         if (!email || !password) {
             return res.json({
                 success: false,

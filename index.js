@@ -24,7 +24,7 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.send("Hello from mera lund");
+  res.send("Hello from world ");
 });
 
 app.use("/auth", authRouter);

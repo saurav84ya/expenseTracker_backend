@@ -85,9 +85,11 @@ const verifyOtpRecovery = async (req, res) => {
     });
   }
 
+  const token = isUserExist?.email
+
   // Send cookie and success response if OTP is valid
   res
-    .cookie("email", isUserExist.email, { httpOnly: true })
+  .cookie("email" , token ,  { httpOnly: true})
     .json({
       success: true,
       isAlloudes: true,
